@@ -9,9 +9,15 @@ const LINE =
   "tonight his daughter danced to them in the kitchen and never knew they were hers.";
 
 const chars = [...LINE].length;
-if (chars < 1 || chars > 240) {
-  throw new Error(`entry must be 1-240 characters, got ${chars}`);
+
+// The bounty gate is 1-240 characters; validate before writing so a
+// bad line fails loudly instead of submitting an invalid entry.
+function assertInGate(n: number): void {
+  if (n < 1 || n > 240) {
+    throw new Error(`entry must be 1-240 characters, got ${n}`);
+  }
 }
+assertInGate(chars);
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LINE, "utf8");
